@@ -9,14 +9,19 @@ import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 
 export default async function DashboardPage() {
-  const revenue = await fetchRevenue();
-  const latestInvoices = await fetchLatestInvoices();
+  const data = await Promise.all([
+    fetchRevenue(),
+    fetchLatestInvoices(),
+    fetchCardData(),
+  ]);
+  const revenue = data[0];
+  const latestInvoices = data[1];
   const {
     numberOfCustomers,
     numberOfInvoices,
     totalPaidInvoices,
     totalPendingInvoices,
-  } = await fetchCardData();
+  } = data[2];
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
