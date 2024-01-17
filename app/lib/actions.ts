@@ -16,6 +16,7 @@ export type State = {
     status?: string[];
   };
   message?: string | null;
+  successMessage?: string | null;
 };
 
 const FormSchema = z.object({
@@ -34,7 +35,12 @@ const FormSchema = z.object({
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+
 const path = '/dashboard/invoices';
+function revalidatePathAndRedirect() {
+  revalidatePath(path);
+  redirect(path);
+}
 
 export async function createInvoice(prevState: State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
@@ -59,13 +65,14 @@ export async function createInvoice(prevState: State, formData: FormData) {
             INSERT INTO invoices (customer_id, amount, status, date)
             VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
         `;
-    return { message: 'Successfully Added!' };
+
+    revalidatePathAndRedirect();
+    return { successMessage: 'Successfully Added!' };
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Invoice.',
     };
   }
-  revalidatePathAndRedirect();
 }
 
 export async function updateInvoice(
@@ -95,25 +102,22 @@ export async function updateInvoice(
         SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
         WHERE id = ${id}
       `;
+    revalidatePathAndRedirect();
+    return {
+      sucessMessage: 'Database Error: Failed to Update Invoice.',
+    };
   } catch (error) {
     return {
       message: 'Database Error: Failed to Update Invoice.',
     };
   }
-
-  revalidatePathAndRedirect();
-}
-
-function revalidatePathAndRedirect() {
-  revalidatePath(path);
-  redirect(path);
 }
 
 export async function deleteInvoice(id: string) {
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath(path);
-    return { message: 'Deleted Invoice' };
+    return { successMessage: 'Deleted Invoice' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Invoice' };
   }
