@@ -20,7 +20,6 @@ export default async function InvoicePage({
     query?: string;
     page?: string;
   };
-  pathname: string;
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
