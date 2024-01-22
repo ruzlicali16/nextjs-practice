@@ -67,7 +67,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
         `;
 
     revalidatePathAndRedirect();
-    return { successMessage: 'Successfully Added!' };
+    return { successMessage: 'Added Invoice' };
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Invoice.',
@@ -104,9 +104,10 @@ export async function updateInvoice(
       `;
     revalidatePathAndRedirect();
     return {
-      sucessMessage: 'Database Error: Failed to Update Invoice.',
+      successMessage: 'Updated Invoice',
     };
   } catch (error) {
+    console.log("🚀 ~ error:", error)
     return {
       message: 'Database Error: Failed to Update Invoice.',
     };

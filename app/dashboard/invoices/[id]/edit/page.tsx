@@ -3,6 +3,7 @@ import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
 
 export const metadata: Metadata = {
   title: 'Edit Invoices',
@@ -10,14 +11,30 @@ export const metadata: Metadata = {
 
 export default async function EditInvoicePage({
   params,
-}: {
+}: Readonly<{
   params: { id: string };
-}) {
+}>) {
   const id = params.id;
-  const [invoice, customers] = await Promise.all([
-    fetchInvoiceById(id),
-    fetchCustomers(),
+  const url = 'http://localhost:3000/api/dashboard';
+  const [invoiceRes, customerRes] = await Promise.all([
+    fetch(`${url}/invoices/${id}/edit`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }),
+    fetch(`${url}/customers`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }),
   ]);
+  const invoice = await invoiceRes.json() as InvoiceForm;
+  const customers = await customerRes.json() as CustomerField[];;
 
   if (!invoice) notFound();
   return (
