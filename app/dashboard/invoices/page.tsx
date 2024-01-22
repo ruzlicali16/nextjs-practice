@@ -20,7 +20,7 @@ export default async function InvoicePage({
     page?: string;
   };
 }>) {
-  const url = 'http://localhost:3000/api/dashboard/invoices';
+  const url = process.env.URL || 'http://localhost:3000/api/dashboard/invoices';
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const response = await fetch(`${url}?query=${query}`,

@@ -12,7 +12,7 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }>) {
-  const url = 'http://localhost:3000/api/ui/invoices';
+  const url = process.env.URL || 'http://localhost:3000/api/ui/invoices';
   const response = await fetch(`${url}?query=${query}&page=${currentPage}`,
     {
       method: 'GET',

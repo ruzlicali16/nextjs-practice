@@ -15,7 +15,7 @@ export default async function EditInvoicePage({
   params: { id: string };
 }>) {
   const id = params.id;
-  const url = 'http://localhost:3000/api/dashboard';
+  const url = process.env.URL || 'http://localhost:3000/api/dashboard';
   const [invoiceRes, customerRes] = await Promise.all([
     fetch(`${url}/invoices/${id}/edit`,
       {
