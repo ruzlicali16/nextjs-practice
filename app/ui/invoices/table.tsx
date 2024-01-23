@@ -1,17 +1,10 @@
-import Image from 'next/image';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
-import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency, BASE_API_URL } from '@/app/lib/utils';
-import { fetchFilteredInvoices } from '@/app/lib/data';
 import { InvoicesTable } from '@/app/lib/definitions';
+import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
+import Image from 'next/image';
+import InvoiceStatus from '@/app/ui/invoices/status';
 
-export default async function InvoicesTable({
-  query,
-  currentPage,
-}: Readonly<{
-  query: string;
-  currentPage: number;
-}>) {
+const getInvoices = async (query: string, currentPage: number) => {
   const API_URL = BASE_API_URL;
   const url = `${API_URL}/api/ui/invoices`;
   const response = await fetch(`${url}?query=${query}&page=${currentPage}`,
@@ -22,7 +15,20 @@ export default async function InvoicesTable({
         'Content-Type': 'application/json'
       },
     });
-  const invoices = await response.json() as InvoicesTable[];
+  return await response.json() as InvoicesTable[];
+}
+
+export default async function InvoicesTable({
+  query,
+  currentPage,
+}: Readonly<{
+  query: string;
+  currentPage: number;
+}>) {
+  if (!BASE_API_URL) {
+    return null;
+  }
+  const invoices = await getInvoices(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">
