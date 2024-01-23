@@ -2,29 +2,38 @@ import { Suspense } from "react";
 import { lusitana } from "@/app/ui/fonts";
 import { CreateInvoice } from "@/app/ui/invoices/buttons";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
-import { fetchInvoicesPages } from "@/app/lib/data";
 import Table from '@/app/ui/invoices/table';
 import Search from "@/app/ui/search";
 import Pagination from "@/app/ui/invoices/pagination";
 
 import { Metadata } from 'next';
- 
+import { BASE_API_URL } from "@/app/lib/utils";
+
 export const metadata: Metadata = {
   title: 'Invoices',
 };
 
 export default async function InvoicePage({
   searchParams,
-}: {
+}: Readonly<{
   searchParams?: {
     query?: string;
     page?: string;
   };
-}) {
+}>) {
+  const API_URL = BASE_API_URL;
+  const url = `${API_URL}/api/dashboard/invoices`;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-
-  const totalPages = await fetchInvoicesPages(query);
+  const response = await fetch(`${url}?query=${query}`,
+    {
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+  const totalPages = await response.json() as number;
 
   return (
     <div className="w-full">

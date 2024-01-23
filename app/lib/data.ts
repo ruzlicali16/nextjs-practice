@@ -20,8 +20,6 @@ export async function fetchRevenue() {
   try {
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-    console.log('Data fetch completed after 3 seconds.');
-
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
@@ -92,7 +90,7 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
-  noStore();
+  // noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -125,7 +123,7 @@ export async function fetchFilteredInvoices(
 }
 
 export async function fetchInvoicesPages(query: string) {
-  noStore();
+  // noStore();
   try {
     const count = await sql`SELECT COUNT(*)
     FROM invoices
@@ -166,8 +164,7 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
-    console.log(invoice); // Invoice is an empty array []
-    return invoice[0];
+    return invoice[0] as InvoiceForm;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
