@@ -4,6 +4,7 @@ import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
+import { BASE_API_URL } from '@/app/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Edit Invoices',
@@ -14,7 +15,7 @@ export default async function EditInvoicePage({
 }: Readonly<{
   params: { id: string };
 }>) {
-  const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
+  const API_URL = BASE_API_URL;
   const id = params.id;
   const url = `${API_URL}/api/dashboard`;
   const [invoiceRes, customerRes] = await Promise.all([

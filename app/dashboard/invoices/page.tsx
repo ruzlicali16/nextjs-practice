@@ -7,6 +7,7 @@ import Search from "@/app/ui/search";
 import Pagination from "@/app/ui/invoices/pagination";
 
 import { Metadata } from 'next';
+import { BASE_API_URL } from "@/app/lib/utils";
 
 export const metadata: Metadata = {
   title: 'Invoices',
@@ -20,7 +21,7 @@ export default async function InvoicePage({
     page?: string;
   };
 }>) {
-  const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
+  const API_URL = BASE_API_URL;
   const url = `${API_URL}/api/dashboard/invoices`;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
