@@ -12,7 +12,8 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }>) {
-  const url = process.env.URL || 'http://localhost:3000/api/ui/invoices';
+  const API_URL = /development/i.test(process.env.NODE_ENV) ? process.env.LOCAL_URL : process.env.PROD_URL;
+  const url = `${API_URL}/api/ui/invoices`;
   const response = await fetch(`${url}?query=${query}&page=${currentPage}`,
     {
       method: 'GET',

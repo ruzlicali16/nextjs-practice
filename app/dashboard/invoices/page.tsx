@@ -20,7 +20,8 @@ export default async function InvoicePage({
     page?: string;
   };
 }>) {
-  const url = process.env.URL || 'http://localhost:3000/api/dashboard/invoices';
+  const API_URL = /development/i.test(process.env.NODE_ENV) ? process.env.LOCAL_URL : process.env.PROD_URL;
+  const url = `${API_URL}/api/dashboard/invoices`;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const response = await fetch(`${url}?query=${query}`,

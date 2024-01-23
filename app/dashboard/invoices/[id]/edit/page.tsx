@@ -14,8 +14,9 @@ export default async function EditInvoicePage({
 }: Readonly<{
   params: { id: string };
 }>) {
+  const API_URL = /development/i.test(process.env.NODE_ENV) ? process.env.LOCAL_URL : process.env.PROD_URL;
   const id = params.id;
-  const url = process.env.URL || 'http://localhost:3000/api/dashboard';
+  const url = `${API_URL}/api/dashboard`;
   const [invoiceRes, customerRes] = await Promise.all([
     fetch(`${url}/invoices/${id}/edit`,
       {
