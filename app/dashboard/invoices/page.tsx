@@ -20,7 +20,7 @@ export default async function InvoicePage({
     page?: string;
   };
 }>) {
-  const API_URL = /development/i.test(process.env.NODE_ENV) ? process.env.LOCAL_URL : process.env.PROD_URL;
+  const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
   const url = `${API_URL}/api/dashboard/invoices`;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
