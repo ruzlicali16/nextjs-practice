@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Edit Invoices',
 };
 
-const API_URL = BASE_API_URL;
+const API_URL = /development/i.test(process.env.NODE_ENV) ? BASE_API_URL : '';
 const url = `${API_URL}/api/dashboard`;
 const getInvoicesById = async (id: string) => {
   const res = await fetch(`${url}/invoices/${id}/edit`,

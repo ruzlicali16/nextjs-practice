@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const getInvoicesTotalPages = async (query: string) => {
-  const API_URL = BASE_API_URL;
+  const API_URL = /development/i.test(process.env.NODE_ENV) ? BASE_API_URL : '';
   const url = `${API_URL}/api/dashboard/invoices`;
   const response = await fetch(`${url}?query=${query}`,
     {

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import InvoiceStatus from '@/app/ui/invoices/status';
 
 const getInvoices = async (query: string, currentPage: number) => {
-  const API_URL = BASE_API_URL;
+  const API_URL = /development/i.test(process.env.NODE_ENV) ? BASE_API_URL : '';
   const url = `${API_URL}/api/ui/invoices`;
   const response = await fetch(`${url}?query=${query}&page=${currentPage}`,
     {

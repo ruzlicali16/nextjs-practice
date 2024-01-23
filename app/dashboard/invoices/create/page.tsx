@@ -3,7 +3,7 @@ import { BASE_API_URL } from "@/app/lib/utils";
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import Form from "@/app/ui/invoices/create-form";
 
-const API_URL = BASE_API_URL;
+const API_URL = /development/i.test(process.env.NODE_ENV) ? BASE_API_URL : '';
 const url = `${API_URL}/api/dashboard/customers`;
 const getCustomers = async () => {
     const res = await fetch(`${url}/customers`,
