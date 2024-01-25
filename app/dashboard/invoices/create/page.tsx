@@ -9,8 +9,7 @@ export const metadata: Metadata = {
 };
 
 const API_URL = /development/i.test(process.env.NODE_ENV) ? BASE_API_URL : '';
-console.log("🚀 ~ BASE_API_URL:", BASE_API_URL)
-const url = `/api/dashboard/invoices/create`;
+const url = `${API_URL}/api/dashboard/invoices/create`;
 const getCustomers = async () => {
     const response = await fetch(url, {
         method: 'GET',
