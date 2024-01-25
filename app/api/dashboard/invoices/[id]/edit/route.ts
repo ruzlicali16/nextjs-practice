@@ -10,6 +10,6 @@ export async function GET(
         const invoice = await fetchInvoiceById(id);
         return NextResponse.json(invoice)
     } catch (error) {
-        return NextResponse.error();
+        return NextResponse.json({ error: error });
     }
 }

@@ -10,6 +10,6 @@ export async function GET(request: NextRequest) {
         const invoices = await fetchFilteredInvoices(query, currentPage);
         return NextResponse.json(invoices)
     } catch (error) {
-        return NextResponse.error();
+        return NextResponse.json({ error: error });
     }
 }

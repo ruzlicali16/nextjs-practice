@@ -9,6 +9,6 @@ export async function GET(request: NextRequest) {
         const totalPages = await fetchInvoicesPages(query);
         return NextResponse.json(totalPages)
     } catch (error) {
-        return NextResponse.error();
+        return NextResponse.json({ error: error });
     }
 }

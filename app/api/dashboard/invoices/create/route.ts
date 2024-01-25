@@ -6,6 +6,6 @@ export async function GET(request: NextRequest) {
         const customers = await fetchCustomers();
         return NextResponse.json(customers)
     } catch (error) {
-        return NextResponse.error();
+        return NextResponse.json({ error: error });
     }
 }
